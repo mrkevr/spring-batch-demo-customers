@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/customer_api?allowPublicKeyRetrieval=true&useSSL=False
+    username: root
+    password: 2433287
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+  batch:
+    jdbc.initialize-schema: ALWAYS
+    job:
+      enabled: false
