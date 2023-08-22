@@ -5,7 +5,7 @@ spring:
     password: 2433287
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: true
+    show-sql: false
   batch:
     jdbc.initialize-schema: ALWAYS
     job:
