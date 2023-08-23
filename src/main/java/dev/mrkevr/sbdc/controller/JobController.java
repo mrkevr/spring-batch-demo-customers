@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -41,23 +40,16 @@ public class JobController {
 			@RequestParam(name = "file", required = true) MultipartFile multipartFile) {
 		
         try {
-        	// Create a File
-        	Date date = new Date();
-        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-			String newFileName = UUID.randomUUID().toString() + "_" + dateFormat.format(date);
+        	
 			
-			// The file name is random UUID + Date and time it is uploaded
-			File fileToRead = new File(BATCH_FILES_PATH + newFileName + ".csv");
-    		
-    		// Transfer the MultipartFile to the File
-    		multipartFile.transferTo(fileToRead);
-    		
+			File fileToRead = this.upload(multipartFile);
+			
             JobParameters jobParameters = new JobParametersBuilder()
             		.addString("fullPathFileName", fileToRead.getAbsolutePath())
                     .addLong("startAt", System.currentTimeMillis())
                     .toJobParameters();
         	
-            JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+            jobLauncher.run(job, jobParameters);
             
 //			if (jobExecution.getExitStatus().equals(ExitStatus.COMPLETED)) {
 //				// Delete or process the file
@@ -75,4 +67,23 @@ public class JobController {
             e.printStackTrace();
         }
     }
+	
+	// Helper method to upload the File
+	private File upload(MultipartFile multipartFile) throws IllegalStateException, IOException {
+		// Create a File
+    	Date date = new Date();
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String newFileName = UUID.randomUUID().toString() + "_" + dateFormat.format(date);
+		
+		// The file name is random UUID + Date and time it is uploaded
+		File fileToRead = new File(BATCH_FILES_PATH + newFileName + ".csv");
+		
+		// Transfer the MultipartFile to the File
+		multipartFile.transferTo(fileToRead);
+		return fileToRead;
+	}
+	
+	
+	
+	
 }

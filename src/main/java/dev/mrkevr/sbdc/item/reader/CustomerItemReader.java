@@ -18,15 +18,17 @@ import dev.mrkevr.sbdc.model.CustomerCsvDto;
 @StepScope
 public class CustomerItemReader extends FlatFileItemReader<CustomerCsvDto> {
 	
-	public CustomerItemReader(@Value("#{jobParameters[fullPathFileName]}")  String fullPathFileName) {
+	public CustomerItemReader(
+			@Value("#{jobParameters[fullPathFileName]}") String fullPathFileName) {
+		
 		super();
-		super.setName("customerCsvReader");
+		super.setName("customerCsvItemReader");
 		super.setResource(new FileSystemResource(new File(fullPathFileName)));
 		super.setLinesToSkip(1);
 		setLineMapper(this.lineMapper());
 	}
 	
-	//Configure how each line will be parsed and mapped to different values
+	// Configure how each line will be parsed and mapped to different values
 	private LineMapper<CustomerCsvDto> lineMapper() {
 
 		DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
