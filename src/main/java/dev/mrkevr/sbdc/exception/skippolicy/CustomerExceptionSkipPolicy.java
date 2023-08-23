@@ -3,7 +3,9 @@ package dev.mrkevr.sbdc.exception.skippolicy;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.batch.item.file.FlatFileParseException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerExceptionSkipPolicy implements SkipPolicy {
 
 	@Override
